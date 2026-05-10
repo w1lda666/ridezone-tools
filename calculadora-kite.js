@@ -15,7 +15,7 @@
 
     // --- TEXTOS TRADUCIDOS ---
     var t = {
-        title: isEN ? 'Ridezone Kite Size Calculator' : 'Ridezone Kite Size Calculator',
+        title: isEN ? 'Ridezone Kite Size Calculator' : 'Calculadora de Talla de Cometa Ridezone',
         subtitle: isEN ? 'Realistic recommendations based on weight, wind and discipline using the North Kiteboarding range.' : 'Recomendaciones realistas basadas en peso, viento y disciplina usando la gama North Kiteboarding.',
         pesoLabel: isEN ? 'Rider weight (kg)' : 'Peso del rider (kg)',
         pesoPlaceholder: isEN ? 'E.g. 75' : 'Ej: 75',
@@ -29,6 +29,10 @@
         foil: 'Foil',
         calcular: isEN ? 'CALCULATE' : 'CALCULAR',
         alert: isEN ? 'Enter weight and wind' : 'Introduce peso y viento',
+
+        // Avisos rider ligero
+        lightRiderTitle: isEN ? '⚠️ Rider too light for these conditions' : '⚠️ Rider demasiado ligero para estas condiciones',
+        lightRiderDesc: isEN ? 'Riders under 40 kg should not sail in winds above 20 knots. The smallest kite may still be dangerous.' : 'Riders de menos de 40 kg no deberían navegar con más de 20 nudos. Incluso la cometa más pequeña puede ser peligrosa.',
 
         // Avisos viento
         lowWindTitle: isEN ? '⚠️ Very low wind' : '⚠️ Muy poco viento',
@@ -75,7 +79,6 @@
     // --- CONSTRUIR HTML ---
     target.innerHTML = '<div style="max-width:900px;margin:auto;padding:35px;background:#111827;border-radius:18px;font-family:Arial,sans-serif;color:white;border:2px solid #00D4FF;box-sizing:border-box;">' +
         '<div style="text-align:center;margin-bottom:30px;">' +
-        '<img src="TU-LOGO-AQUI.png" alt="Ridezone" style="max-width:220px;margin-bottom:20px;">' +
         '<h2 style="margin:0;font-size:32px;color:#00D4FF;">' + t.title + '</h2>' +
         '<p style="color:#cbd5e1;margin-top:12px;">' + t.subtitle + '</p>' +
         '</div>' +
@@ -118,8 +121,14 @@
         if (disciplina == "freestyle") modelo = "North Pulse";
         if (disciplina == "foil") modelo = "North Code Zero";
 
+        // AVISO RIDER LIGERO
+        if (peso < 40 && viento > 20) {
+            advertencia = '<div style="background:#3b1d1d;padding:20px;border-radius:12px;margin-bottom:25px;border-left:5px solid #ff4d4d;">' +
+                '<h3 style="margin-top:0;color:#ff8080;">' + t.lightRiderTitle + '</h3>' +
+                '<p style="line-height:1.6;">' + t.lightRiderDesc + '</p></div>';
+        }
         // INTERPRETACIÓN GLOBAL DEL VIENTO
-        if (viento <= 8 && disciplina != "foil") {
+        else if (viento <= 8 && disciplina != "foil") {
             advertencia = '<div style="background:#3b1d1d;padding:20px;border-radius:12px;margin-bottom:25px;border-left:5px solid #ff4d4d;">' +
                 '<h3 style="margin-top:0;color:#ff8080;">' + t.lowWindTitle + '</h3>' +
                 '<p style="line-height:1.6;">' + t.lowWindDesc + '</p>' +
@@ -155,15 +164,22 @@
         // BASE REALISTA POR PESO Y VIENTO
         function calcularBase(p, v) {
             if (p <= 50) {
-                if (v <= 8) return 19;
-                if (v <= 12) return 13;
-                if (v <= 16) return 11;
-                if (v <= 20) return 9;
-                if (v <= 25) return 8;
-                if (v <= 30) return 7;
-                if (v <= 35) return 6;
-                if (v <= 40) return 5;
-                return 4;
+                if (p < 40) {
+                    if (v <= 10) return 12;
+                    if (v <= 14) return 9;
+                    if (v <= 18) return 7;
+                    if (v <= 22) return 5;
+                    if (v <= 28) return 4;
+                    return 3;
+                }
+                if (v <= 8) return 17;
+                if (v <= 12) return 12;
+                if (v <= 16) return 10;
+                if (v <= 20) return 8;
+                if (v <= 25) return 6;
+                if (v <= 30) return 5;
+                if (v <= 35) return 4;
+                return 3;
             }
             if (p <= 65) {
                 if (v <= 8) return 19;
@@ -214,7 +230,7 @@
         var finalSize = base + ajuste;
 
         // LÍMITES
-        if (finalSize < 4) finalSize = 4;
+        if (finalSize < 3) finalSize = 3;
         if (finalSize > 19) finalSize = 19;
 
         // TEXTO TAMAÑO
