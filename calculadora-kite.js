@@ -2,9 +2,27 @@
     var target = document.getElementById('ridezone-kite-calculator');
     if (!target) return;
 
-    var lang = document.documentElement.lang || 'es';
-    var isEN = lang.indexOf('en') === 0;
-    var isES = lang.indexOf('es') === 0;
+    // Detectar idioma en PrestaShop 8.2
+    var lang = 'es';
+    var htmlLang = document.documentElement.lang;
+    var bodyClass = document.body.className;
+    
+    if (htmlLang && htmlLang.indexOf('en') === 0) {
+        lang = 'en';
+    } else if (bodyClass.indexOf('lang-en') !== -1) {
+        lang = 'en';
+    } else if (window.prestashop && window.prestashop.language && window.prestashop.language.iso_code) {
+        lang = window.prestashop.language.iso_code;
+    }
+    
+    // Fallback: buscar en la URL
+    var urlPath = window.location.pathname;
+    if (urlPath.indexOf('/en/') !== -1) {
+        lang = 'en';
+    }
+
+    var isEN = (lang === 'en');
+    console.log('🌐 Idioma detectado: ' + lang);
 
     var textos = {
         title: isEN ? '🧮 Calculate your ideal kite size' : '🧮 Calcula tu tamaño de kite ideal',
