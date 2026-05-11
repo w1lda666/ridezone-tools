@@ -2,7 +2,6 @@
     var target = document.getElementById('ridezone-kite-calculator');
     if (!target) return;
 
-    // --- DETECCIÓN DE IDIOMA ---
     var lang = 'es';
     var htmlLang = document.documentElement.lang;
     var bodyClass = document.body.className;
@@ -13,7 +12,6 @@
     if (urlPath.indexOf('/en/') !== -1) lang = 'en';
     var isEN = (lang === 'en');
 
-    // --- TEXTOS TRADUCIDOS ---
     var t = {
         title: isEN ? 'Ridezone Kite Size Calculator' : 'Calculadora de Talla de Cometa Ridezone',
         subtitle: isEN ? 'Realistic recommendations based on weight, wind and discipline using the North Kiteboarding range.' : 'Recomendaciones realistas basadas en peso, viento y disciplina usando la gama North Kiteboarding.',
@@ -29,12 +27,8 @@
         foil: 'Foil',
         calcular: isEN ? 'CALCULATE' : 'CALCULAR',
         alert: isEN ? 'Enter weight and wind' : 'Introduce peso y viento',
-
-        // Avisos rider ligero
         lightRiderTitle: isEN ? '⚠️ Rider too light for these conditions' : '⚠️ Rider demasiado ligero para estas condiciones',
         lightRiderDesc: isEN ? 'Riders under 40 kg should not sail in winds above 20 knots. The smallest kite may still be dangerous.' : 'Riders de menos de 40 kg no deberían navegar con más de 20 nudos. Incluso la cometa más pequeña puede ser peligrosa.',
-
-        // Avisos viento
         lowWindTitle: isEN ? '⚠️ Very low wind' : '⚠️ Muy poco viento',
         lowWindDesc: isEN ? 'With less than 8 knots it is usually not viable to sail comfortably on a twin tip, even using very large kites.' : 'Con menos de 8 nudos normalmente no es viable navegar cómodamente en twin tip, incluso usando cometas muy grandes.',
         lowWindReco: isEN ? 'For these conditions we recommend:' : 'Para estas condiciones recomendamos:',
@@ -42,30 +36,21 @@
         lowWindItem2: isEN ? 'Lightwind board' : 'Tabla lightwind',
         lowWindItem3: 'North Code Zero',
         lowWindItem4: 'Reach 17m o 19m',
-
         strongWindTitle: isEN ? '⚠️ Very strong wind' : '⚠️ Viento muy fuerte',
         strongWindDesc: isEN ? 'Conditions recommended only for experienced riders with appropriate gear.' : 'Condiciones recomendadas únicamente para riders experimentados y material adecuado.',
-
         extremeWindTitle: isEN ? '⚠️ Extreme conditions' : '⚠️ Condiciones extremas',
         extremeWindDesc: isEN ? 'Only advanced riders should sail in this wind.' : 'Solo riders avanzados deberían navegar con este viento.',
-
         stormWindTitle: isEN ? '⚠️ Storm Riding / Very dangerous' : '⚠️ Storm Riding / Muy peligroso',
         stormWindDesc1: isEN ? 'Over 50 knots is considered extremely dangerous wind.' : 'Más de 50 nudos se considera viento extremadamente peligroso.',
         stormWindDesc2: isEN ? 'Sail only under your own responsibility and with advanced experience.' : 'Navega únicamente bajo tu responsabilidad y con experiencia avanzada.',
-
-        // Resultado
-        resultado: isEN ? '📊 Result' : '📊 Resultado',
+        resultado: isEN ? 'Result' : 'Resultado',
         tamanoRec: isEN ? 'Recommended size:' : 'Tamaño recomendado:',
         modeloRec: isEN ? 'Recommended model:' : 'Modelo recomendado:',
-
-        // Comentarios modelos
         msgFreeride: isEN ? 'The North Reach is the most versatile and recommended option for most riders.' : 'La North Reach es la opción más polivalente y recomendable para la mayoría de riders.',
         msgBigair: isEN ? 'The North Orbit offers maximum control, hangtime and stability in strong wind.' : 'La North Orbit ofrece máximo control, hangtime y estabilidad en viento fuerte.',
         msgWave: isEN ? 'The North Carve stands out for its drift and turning speed in waves.' : 'La North Carve destaca por su drift y velocidad de giro en olas.',
         msgFreestyle: isEN ? 'The North Pulse is designed for riders looking for explosive pop and powered freestyle.' : 'La North Pulse está diseñada para riders que buscan pop explosivo y freestyle powered.',
         msgFoil: isEN ? 'The North Code Zero maximizes light wind and foil performance.' : 'La North Code Zero maximiza el rendimiento en viento flojo y foil.',
-
-        // Disclaimer
         avisoFinal: isEN ? 'These recommendations are approximate and may vary according to:' : 'Estas recomendaciones son orientativas y pueden variar según:',
         avisoItem1: isEN ? 'Rider level' : 'Nivel del rider',
         avisoItem2: isEN ? 'Type of board' : 'Tipo de tabla',
@@ -76,7 +61,6 @@
         cta: isEN ? '👉 At Ridezone we can help you choose the perfect North Kiteboarding quiver.' : '👉 En Ridezone podemos ayudarte a elegir el quiver North Kiteboarding perfecto.'
     };
 
-    // --- CONSTRUIR HTML ---
     target.innerHTML = '<div style="max-width:900px;margin:auto;padding:35px;background:#111827;border-radius:18px;font-family:Arial,sans-serif;color:white;border:2px solid #00D4FF;box-sizing:border-box;">' +
         '<div style="text-align:center;margin-bottom:30px;">' +
         '<h2 style="margin:0;font-size:32px;color:#00D4FF;">' + t.title + '</h2>' +
@@ -98,7 +82,6 @@
         '<div id="resultado-kite" style="display:none;margin-top:35px;padding:30px;background:#1f2937;border-radius:16px;"></div>' +
         '</div>';
 
-    // --- LÓGICA DE CÁLCULO ---
     document.getElementById('calcular-kite-btn').addEventListener('click', function() {
         var peso = parseInt(document.getElementById('peso-kite').value);
         var viento = parseInt(document.getElementById('viento-kite').value);
@@ -114,7 +97,6 @@
         var tamano = "";
         var comentario = "";
 
-        // MODELOS
         if (disciplina == "freeride") modelo = "North Reach";
         if (disciplina == "bigair") modelo = "North Orbit";
         if (disciplina == "wave") modelo = "North Carve";
@@ -127,7 +109,6 @@
                 '<h3 style="margin-top:0;color:#ff8080;">' + t.lightRiderTitle + '</h3>' +
                 '<p style="line-height:1.6;">' + t.lightRiderDesc + '</p></div>';
         }
-        // INTERPRETACIÓN GLOBAL DEL VIENTO
         else if (viento <= 8 && disciplina != "foil") {
             advertencia = '<div style="background:#3b1d1d;padding:20px;border-radius:12px;margin-bottom:25px;border-left:5px solid #ff4d4d;">' +
                 '<h3 style="margin-top:0;color:#ff8080;">' + t.lowWindTitle + '</h3>' +
@@ -154,14 +135,12 @@
                 '<p style="line-height:1.6;">' + t.stormWindDesc2 + '</p></div>';
         }
 
-        // AJUSTE DISCIPLINA
         var ajuste = 0;
         if (disciplina == "bigair") ajuste = -1;
         if (disciplina == "wave") ajuste = -1;
         if (disciplina == "freestyle") ajuste = -0.5;
         if (disciplina == "foil") ajuste = -3;
 
-        // BASE REALISTA POR PESO Y VIENTO
         function calcularBase(p, v) {
             if (p <= 50) {
                 if (p < 40) {
@@ -214,7 +193,6 @@
                 if (v <= 40) return 7;
                 return 6;
             }
-            // 95+
             if (v <= 8) return 19;
             if (v <= 12) return 19;
             if (v <= 16) return 17;
@@ -229,11 +207,9 @@
         var base = calcularBase(peso, viento);
         var finalSize = base + ajuste;
 
-        // LÍMITES
         if (finalSize < 3) finalSize = 3;
         if (finalSize > 19) finalSize = 19;
 
-        // TEXTO TAMAÑO
         if (finalSize >= 17) tamano = "17m - 19m";
         else if (finalSize >= 14) tamano = "14m - 17m";
         else if (finalSize >= 12) tamano = "12m - 14m";
@@ -242,14 +218,12 @@
         else if (finalSize >= 6) tamano = "6m - 8m";
         else tamano = "4m - 6m";
 
-        // COMENTARIOS
         if (disciplina == "freeride") comentario = t.msgFreeride;
         if (disciplina == "bigair") comentario = t.msgBigair;
         if (disciplina == "wave") comentario = t.msgWave;
         if (disciplina == "freestyle") comentario = t.msgFreestyle;
         if (disciplina == "foil") comentario = t.msgFoil;
 
-        // RESULTADO
         document.getElementById('resultado-kite').style.display = "block";
         document.getElementById('resultado-kite').innerHTML =
             advertencia +
