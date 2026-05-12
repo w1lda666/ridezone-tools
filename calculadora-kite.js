@@ -146,13 +146,13 @@
         if (finalSize < 3) finalSize = 3;
         if (finalSize > 19) finalSize = 19;
 
-        if (finalSize >= 17) tamano = "17m - 19m";
-        else if (finalSize >= 14) tamano = "14m - 17m";
-        else if (finalSize >= 12) tamano = "12m - 14m";
-        else if (finalSize >= 10) tamano = "10m - 12m";
-        else if (finalSize >= 8) tamano = "8m - 10m";
-        else if (finalSize >= 6) tamano = "6m - 8m";
-        else tamano = "4m - 6m";
+if (finalSize >= 17) tamano = "17m - 19m";
+else if (finalSize >= 14) tamano = "14m - 17m";
+else if (finalSize >= 12) tamano = "12m - 14m";
+else if (finalSize >= 10) tamano = "10m - 12m";
+else if (finalSize >= 8) tamano = "8m - 10m";
+else if (finalSize >= 6) tamano = "6m - 8m";
+else tamano = "4m - 6m";
 
         if (disciplina == "freeride") comentario = t.msgFreeride;
         if (disciplina == "bigair") comentario = t.msgBigair;
